@@ -1,0 +1,45 @@
+variables:
+  #Build  
+  BUILD_CSPROJ: "DTBPublisherService/DTBPublisherService.csproj"
+  BUILD_CONFIGURATION: "Release"
+  TARGET: './DTBPublisherService/target'
+  
+  #Unit Test
+  UNIT_TEST_PROJ: DTBPublisherService.UnitTests/DTBPublisherService.UnitTests.csproj
+  INTEGRATION_TEST_FILE: DTBPublisherServiceIntegrationTest.csproj
+  
+  #Deploy
+  NONPRODAPP_NAME: DTBPublisherService
+  APP_NAME: DTBPublisherService  #$NONPRODAPP_NAME
+  TEMP_APP_NAME: 'DTBPublisherServiceTemp' 
+
+  #Deploy to NonProd
+  CONFIGSERVER_NAME: 'DLFGatewayConfigServer'
+  
+  #fortify-scan
+  FORTIFY_PROJECT_ID: 18476
+  FORTIFY_TOKEN: '38a0a7eb-67ba-45e5-816f-dd01c42ed6a6'
+
+  #Sonar-scan
+  SCAN_DIR: "DTBPublisherService"
+  SONAR_PROJECT_NAME: "DTBPublisherService"
+  UNIT_TEST_DIR: "DTBPublisherService.UnitTest"
+  COVERAGE_FILE: "DTBPublisherService.UnitTest/coverage.opencover.xml" 
+
+  #Int-Test
+  INT_TEST_DIR: 'DTBPublisherService.IntegrationTest'
+  INTEGRATION_TEST_PROJ: 'DTBPublisherService.IntegrationTest.csproj'
+  
+  PROD_CONFIGSERVER_NAME: 'DLFGatewayConfigServer' #Config server name which is there in PROD
+  PRODAPP_NAME: 'DTBPublisherServicePROD' #PROD App name
+
+
+include: 
+  - project: 'om/bpm/df/templates/deployment'
+    ref: master
+    file: '/DotnetCoreCloudNativeBlueprint.yml'
+
+# As CONFIGSERVER_NAME is different in DEV and in other environments
+deploy-dev:
+  variables:
+    CONFIGSERVER_NAME : 'DLFGatewayConfigService'
